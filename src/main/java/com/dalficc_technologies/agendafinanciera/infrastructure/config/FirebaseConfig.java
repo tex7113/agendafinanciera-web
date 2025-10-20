@@ -20,6 +20,7 @@ public class FirebaseConfig {
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://agendafinanciera-90400-default-rtdb.firebaseio.com")
                 .build();
 
         if (FirebaseApp.getApps().isEmpty()) {
