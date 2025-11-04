@@ -2,11 +2,11 @@ package com.dalficc_technologies.agendafinanciera.presentation.controller;
 
 import com.dalficc_technologies.agendafinanciera.application.service.GetUserService;
 import com.dalficc_technologies.agendafinanciera.domain.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
 
@@ -17,8 +17,18 @@ public class UserController {
     @Autowired
     private GetUserService getUserService;
 
-    @GetMapping("/{userId}")
-    public User getCurrentUser(@PathVariable String userId) throws ExecutionException, InterruptedException {
-        return getUserService.getUser(userId);
+    @GetMapping
+    public User getCurrentUser(@RequestHeader(value = "Authorization") String token) throws ExecutionException, InterruptedException, FirebaseAuthException {
+        if (token == null) {
+            return null;
+        }
+            try {
+                FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+                String userId = decodedToken.getUid();
+                return getUserService.getUser(userId);
+
+            } catch (FirebaseAuthException e) {
+                return null;
+            }
     }
 }

@@ -5,6 +5,7 @@ import com.dalficc_technologies.agendafinanciera.domain.repository.UserRepositor
 import com.google.firebase.database.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 @Repository
@@ -13,24 +14,29 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getUserById(String userId) throws ExecutionException, InterruptedException {
 
-        final User[] user = {new User()};
+        final User[] user = new User[1];
+        CountDownLatch latch = new CountDownLatch(1);
 
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(userId)
                 .child("profile");
 
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                user[0] = dataSnapshot.getValue(User.class);
+                if (dataSnapshot.exists()) {
+                    user[0] = dataSnapshot.getValue(User.class);
+                }
+                latch.countDown();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                latch.countDown();
             }
         });
+        latch.await();
         return user[0];
     }
 }

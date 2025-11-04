@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: layout(~{::body}, 'Panel — Agenda Financiera' )">
+
+<body>
+
+<main>
+    <!-- BIENVENIDA -->
+    <div class="container my-4">
+        <h1 class="fw-bold fs-3">Bienvenido de nuevo <span id="txtUserName">...</span></h1>
+        <p class="text-secondary">Aquí está un resumen de tu actividad financiera</p>
+    </div>
+
+    <!-- TARJETAS DE RESUMEN -->
+    <div class="container pb-4">
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h6 class="text-muted mb-2">Balance Total</h6>
+                            <i class="bi bi-wallet2 text-secondary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-1">$45,231.89</h4>
+                        <small class="text-success">↑ +20.1% desde el mes pasado</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h6 class="text-muted mb-2">Ingresos</h6>
+                            <i class="bi bi-graph-up text-secondary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-1">$<span id="totalIncomes">...</span></h4>
+                        <small class="text-success">↑ +12.5% este mes</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h6 class="text-muted mb-2">Gastos</h6>
+                            <i class="bi bi-credit-card text-secondary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-1">$<span id="totalExpenses">...</span></h4>
+                        <small class="text-danger">↓ -4.3% vs mes anterior</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h6 class="text-muted mb-2">Ahorros</h6>
+                            <i class="bi bi-piggy-bank text-secondary"></i>
+                        </div>
+                        <h4 class="fw-bold mb-1">$1,900.00</h4>
+                        <small class="text-success">↑ +32.7% este mes</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN GRÁFICAS -->
+    <div class="container pb-4">
+        <div class="row g-4">
+            <!-- Resumen Financiero -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6 class="fw-bold mb-0">Resumen Financiero</h6>
+                                <small class="text-secondary">Ingresos, gastos y ahorros de los últimos 6 meses</small>
+                            </div>
+                            <button class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-download me-1"></i> Exportar
+                            </button>
+                        </div>
+                        <div class="bg-light rounded-3" style="height: 250px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gastos por Categoría -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-1">Gastos por Categoría</h6>
+                        <small class="text-secondary">Distribución del mes actual</small>
+                        <div class="text-center my-3">
+                            <div class="rounded-circle bg-light mx-auto" style="width:150px;height:150px;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between"><span>Vivienda</span><strong>$1200</strong></div>
+                        <div class="d-flex justify-content-between"><span>Alimentación</span><strong>$800</strong></div>
+                        <div class="d-flex justify-content-between"><span>Transporte</span><strong>$400</strong></div>
+                        <div class="d-flex justify-content-between"><span>Entretenimiento</span><strong>$300</strong>
+                        </div>
+                        <div class="d-flex justify-content-between"><span>Otros</span><strong>$500</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN DE TRANSACCIONES -->
+    <div class="container pb-5">
+
+        <h6 class="fw-bold mb-0">Transacciones Recientes</h6>
+        <small class="text-secondary">Tus últimas transacciones financieras</small>
+        <hr>
+        <!-- Pestañas -->
+        <ul class="nav nav-tabs mb-3" id="finanzasTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="transacciones-tab" data-bs-toggle="tab"
+                        data-bs-target="#transacciones" type="button" role="tab" onclick="incomesTransactionsList()">
+                    Ingresos
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="inversiones-tab" data-bs-toggle="tab" data-bs-target="#transacciones"
+                        type="button" role="tab" onclick="expensesTransactionsList()">Gastos
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="metas-tab" data-bs-toggle="tab" data-bs-target="#transacciones"
+                        type="button"
+                        role="tab" onclick="allList()">todo
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="finanzasTabsContent">
+            <!-- Transacciones -->
+            <div class="tab-pane fade show active" id="transacciones" role="tabpanel">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body">
+
+                        <!-- Lista de transacciones -->
+                        <div class="list-group" id="transactionsList">
+<!--                            <div class="list-group-item border-0 rounded-3 mb-2 bg-light d-flex justify-content-between align-items-center">-->
+<!--                                <div><i class="bi bi-arrow-up-right-circle-fill text-success me-2"></i> Salario-->
+<!--                                    Mensual<br><small class="text-secondary">15 Jun 2024</small></div>-->
+<!--                                <span class="text-success fw-bold">+$5800</span>-->
+<!--                            </div>-->
+<!--                            <div class="list-group-item border-0 rounded-3 mb-2 bg-light d-flex justify-content-between align-items-center"><div><i class="bi bi-arrow-down-right-circle-fill text-danger me-2"></i>'+ transaction.description +'<br><small class="text-secondary">'+ transaction.date +'</small></div><span class="text-danger fw-bold">$'+ transaction.amount +'</span></div>-->
+<!--                            <div class="list-group-item border-0 rounded-3 bg-light d-flex justify-content-between align-items-center">-->
+<!--                                <div><i class="bi bi-arrow-down-right-circle-fill text-danger me-2"></i>-->
+<!--                                    Supermercado<br><small class="text-secondary">12 Jun 2024</small></div>-->
+<!--                                <span class="text-danger fw-bold">$250</span>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Inversiones -->
+    <div class="tab-pane fade" id="expenses" role="tabpanel">
+
+        <!--                <div class="alert alert-secondary">Aún no hay datos de inversiones.</div>-->
+    </div>
+
+    <!-- Metas -->
+    <!--            <div class="tab-pane fade" id="" role="tabpanel">-->
+    <!--                <div class="alert alert-secondary">Aún no hay metas definidas.</div>-->
+    <!--            </div>-->
+    </div>
+    </div>
+</main>
+
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

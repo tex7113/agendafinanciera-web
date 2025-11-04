@@ -44,4 +44,25 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
         latch.await();
         return expenses;
     }
+
+    @Override
+    public Expense addExpense(String userId, Expense expense) throws ExecutionException, InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("expenses")
+                .push();
+
+        String newId = ref.getKey();
+        expense.setId(newId);
+
+        ref.setValue(expense, (error, ref1) -> {
+
+            latch.countDown();
+        });
+
+        latch.await();
+        return expense;
+    }
 }
