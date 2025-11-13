@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             e.preventDefault();
             localStorage.removeItem("token");
             localStorage.removeItem("email");
-            window.location.href = "/iniciar-sesion";
+            window.location.href = "/public/iniciar-sesion";
         });
     }
 });

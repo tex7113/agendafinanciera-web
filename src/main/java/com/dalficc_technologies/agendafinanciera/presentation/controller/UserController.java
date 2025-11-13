@@ -22,13 +22,13 @@ public class UserController {
         if (token == null) {
             return null;
         }
-            try {
-                FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-                String userId = decodedToken.getUid();
-                return getUserService.getUser(userId);
+        try {
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+            String userId = decodedToken.getUid();
+            return getUserService.getUser(userId);
 
-            } catch (FirebaseAuthException e) {
-                return null;
-            }
+        } catch (FirebaseAuthException e) {
+            return null;
+        }
     }
 }

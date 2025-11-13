@@ -15,8 +15,9 @@ async function loadUser() {
   });
   const user = await request.json();
 
-  document.getElementById('txtUserName').outerHTML = user.name;
-
+  document.getElementById('txtUserName').textContent = user.name;
+  document.getElementById('availableAmount').textContent = user.availableAmount ?? 0;
+  document.getElementById('txtsaves').textContent = user.moneySaved;
 }
 
 async function loadIncomes() {
