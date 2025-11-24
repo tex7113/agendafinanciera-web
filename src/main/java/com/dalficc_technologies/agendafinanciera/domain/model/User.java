@@ -7,10 +7,8 @@ public class User {
 
     private String name;
     private String email;
-    private String password;
     private Double availableAmount;
-    private Double moneySaved;
-    private Long createdAt;
+    private Double savings;
 
     public String getName() {
         return name;
@@ -28,14 +26,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Double getAvailableAmount() {
         return availableAmount;
     }
@@ -44,19 +34,11 @@ public class User {
         this.availableAmount = availableAmount;
     }
 
-    public Double getMoneySaved() {
-        return moneySaved;
+    public Double getSavings() {
+        return savings;
     }
 
-    public void setMoneySaved(Double moneySaved) {
-        this.moneySaved = moneySaved;
-    }
-
-    public Long getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Long createdAt) {
-        this.createdAt = createdAt;
+    public void setSavings(Double savings) {
+        this.savings = savings;
     }
 }
