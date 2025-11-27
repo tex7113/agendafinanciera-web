@@ -94,7 +94,6 @@ function groupByCategoryOfMonth(transactions, year, month) {
 
 //-------Calcular Totales
 function calculateTotals(transacciones) {
-  console.log(transacciones);
   const totalIncomes = transacciones.income.reduce((sum, tx) => sum + tx.amount, 0);
   const totalExpenses = transacciones.expense.reduce((sum, tx) => sum + tx.amount, 0);
   return [ totalIncomes, totalExpenses ];

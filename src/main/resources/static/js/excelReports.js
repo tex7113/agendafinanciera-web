@@ -1,5 +1,3 @@
-const token = localStorage.getItem("token"); // o tu método de obtener token
-
 document.getElementById("btnGenerateMonthly").addEventListener("click", async () => {
     const month = document.getElementById("monthSelect").value;
     const year = document.getElementById("yearSelectMonthly").value;
@@ -7,9 +5,7 @@ document.getElementById("btnGenerateMonthly").addEventListener("click", async ()
     try {
         const response = await fetch(`/api/v1/transactions/month/report?year=${year}&month=${month}`, {
             method: 'GET',
-            headers: {
-                'Authorization': token
-            }
+            headers: getHeaders(),
         });
 
         if (!response.ok) throw new Error("Error al generar el reporte");
@@ -36,9 +32,7 @@ document.getElementById("btnGenerateYearly").addEventListener("click", async () 
     try {
         const response = await fetch(`/api/v1/transactions/year/report?year=${year}`, {
             method: 'GET',
-            headers: {
-                'Authorization': token
-            }
+            headers: getHeaders(),
         });
 
         if (!response.ok) throw new Error("Error al generar el reporte");

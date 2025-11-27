@@ -50,11 +50,8 @@ async function loadTransactions() {
 
     const [totalIncomes, totalExpenses] = calculateTotals(currentMonth);
     const [preTotalIncome, preTotalExpense] = calculateTotals(prevMonth);
-    console.log(prevMonth);
-    console.log(currentMonth);
 
     const [ incomeDiff, expenseDiff ] = calculateDifferential(preTotalIncome, totalIncomes, preTotalExpense, totalExpenses);
-    console.log(preTotalIncome, totalIncomes, preTotalExpense, totalExpenses);
 
     $("#txTotalIncomes").text(totalIncomes);
     $("#totalExpenses").text(totalExpenses);
@@ -156,7 +153,6 @@ function printChart() {
 
   // === LINE CHART: últimos 6 meses ===
   const monthlyData = groupLast6Months(allTransactions);
-  console.log(monthlyData);
 
   const labels = monthlyData.map(m =>
     new Date(m.year, m.month).toLocaleString("es-ES", { month: "short" })
@@ -263,34 +259,4 @@ function allTransactionsList() {
   transactionsList = allTransactions;
   currentPage = 1;
   renderTransactionList();
-}
-
-document.getElementById("btnExportExcel").addEventListener("click", () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1; // 1–12
-
-    downloadExcelReport(year, month);
-});
-
-async function downloadExcelReport(year, month) {
-    const response = await fetch(`/api/v1/transactions/month/report?year=${year}&month=${month}`, {
-        method: "GET",
-        headers: getHeaders(), // usa tu función que agrega Authorization
-    });
-
-    if (!response.ok) {
-        alert("No se pudo generar el reporte");
-        return;
-    }
-
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `reporte_${year}_${month}.xlsx`;
-    a.click();
-
-    window.URL.revokeObjectURL(url);
 }
