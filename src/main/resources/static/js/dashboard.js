@@ -264,3 +264,33 @@ function allTransactionsList() {
   currentPage = 1;
   renderTransactionList();
 }
+
+document.getElementById("btnExportExcel").addEventListener("click", () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1; // 1–12
+
+    downloadExcelReport(year, month);
+});
+
+async function downloadExcelReport(year, month) {
+    const response = await fetch(`/api/v1/transactions/month/report?year=${year}&month=${month}`, {
+        method: "GET",
+        headers: getHeaders(), // usa tu función que agrega Authorization
+    });
+
+    if (!response.ok) {
+        alert("No se pudo generar el reporte");
+        return;
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `reporte_${year}_${month}.xlsx`;
+    a.click();
+
+    window.URL.revokeObjectURL(url);
+}

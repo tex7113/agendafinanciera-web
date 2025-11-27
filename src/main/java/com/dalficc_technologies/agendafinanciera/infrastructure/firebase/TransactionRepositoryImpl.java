@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 
 @Repository
 public class TransactionRepositoryImpl implements TransactionRepository {
@@ -51,7 +49,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                     }
                 }
 
-                // Después de incomes, leer expenses
                 ref.child("expenses").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot2) {
