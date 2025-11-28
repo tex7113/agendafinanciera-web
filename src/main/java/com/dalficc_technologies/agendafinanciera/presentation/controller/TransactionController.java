@@ -29,6 +29,7 @@ public class TransactionController {
         try {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
             String userId = decodedToken.getUid();
+            System.out.println(userId);
             List<TransactionItem> transactions = getUserTransactionsService.getUserTransactions(userId);
             return ResponseEntity.ok(transactions);
         }catch (Exception e) {
