@@ -12,7 +12,7 @@ const pageSize = 8;
 
 async function loadUser() {
   try {
-    const request = await fetch("api/v1/user", {
+    const request = await fetch("/api/v1/user", {
       method: "GET",
       headers: getHeaders(),
     });
@@ -33,7 +33,7 @@ async function loadUser() {
 
 async function loadTransactions() {
   try {
-    const request = await fetch("api/v1/transactions", {
+    const request = await fetch("/api/v1/transactions", {
       method: "GET",
       headers: getHeaders(),
     });
